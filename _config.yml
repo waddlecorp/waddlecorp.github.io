@@ -1,11 +1,11 @@
 # Site settings
-title: Hux Blog
-SEOTitle: 黄玄的博客 | Hux Blog
+title: WADDLE CORPORATION Blog
+SEOTitle: 주식회사 와들 | WADDLE CORPORATION Blog
 header-img: img/home-bg.jpg
-email: huxpro@gmail.com
-description: "关于程序与设计、黑客与画家 | 黄玄，Web & Mobile Lover，Software Engineer，UX Designer | 这里是 @Hux黄玄 的个人博客，与你一起发现更大的世界。"
-keyword: "黄玄, Hux黄玄, Hux, 鬼栈, huxpro, @huxpro, 黄玄的博客, Hux Blog, 博客, 个人网站, 互联网, Web, JavaScript, 前端, 设计"
-url: "https://huangxuan.me"              # your host, for absolute URL
+email: waddle@waddlelab.com
+description: "We provide technological solutions for vulnerable commmunities."
+keyword: "와들, WADDLE, waddlelab, Web, Java, Python, JavaScript, Swift, Android, iOS"
+url: "https://waddlecorp.github.io"              # your host, for absolute URL
 baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
 
 # Publish posts or collection documents with a future date.
@@ -13,14 +13,7 @@ future: true
 
 # SNS settings
 RSS: false
-weibo_username:     huxpro
-zhihu_username:     huxpro
-github_username:    huxpro
-twitter_username:   huxpro
-#facebook_username:  huxpro
-#linkedin_username:  firstname-lastname-idxxxx
-
-
+github_username: waddlecorp
 
 # Build settings
 # from 2016, 'pygments' is unsupported on GitHub Pages. Use 'rouge' for highlighting instead.
@@ -59,7 +52,7 @@ kramdown:
 
 
 # Disqus settings
-disqus_username: hux
+disqus_username: yeddi
 
 # Netease settings
 netease_comment: false
@@ -106,31 +99,25 @@ friends: [
     #     title: "Su",
     #     href: "http://su.gallery/"
     # },{
-        title: "乱序",
-        href: "http://mida.re/"
+        title: "이요님",
+        href: ""
     },{
-        title: "Sherry Wu",
-        href: "https://xuechundesign.github.io"
+        title: "구리님",
+        href: ""
     },{
-        title: "Luke 的自留地",
-        href: "http://hmqk1995.github.io"
+        title: "렉스님",
+        href: ""
     },{
-        title: "Ebn's Blog",
-        href: "http://ebnbin.com/"
+        title: "예띠님",
+        href: ""
     },{
-        title: "SmdCn's Blog",
-        href: "http://blog.smdcn.net"
+        title: "램프님",
+        href: ""
     },{
-        title: "JiyinYiyong",
-        href: "http://tiye.me/"
+        title: "센님",
+        href: ""
     },{
-        title: "David's Game",
-        href: "https://www.ruoyaowu.com/"
-    },{
-        title: "DHong Say",
-        href: "http://dhong.co"
-    },{
-        title: "尹峰以为",
-        href: "http://ingf.github.io/"
+        title: "램프님",
+        href: ""
     }
 ]
