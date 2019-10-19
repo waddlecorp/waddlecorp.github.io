@@ -1,10 +1,10 @@
 # Site settings
-title: WADDLE CORPORATION Blog
-SEOTitle: 주식회사 와들 | WADDLE CORPORATION Blog
+title: WADDLE Corporation Blog
+SEOTitle: 주식회사 와들 | WADDLE Corporation Blog
 header-img: img/home-bg.jpg
 email: waddle@waddlelab.com
 description: "We provide technological solutions for vulnerable commmunities."
-keyword: "와들, WADDLE, waddlelab, Web, Java, Python, JavaScript, Swift, Android, iOS"
+keyword: "와들, WADDLE, waddlelab, Web, Java, Python, JavaScript, Swift, Android, iOS, Kotlin"
 url: "https://waddlecorp.github.io"              # your host, for absolute URL
 baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
 
@@ -64,14 +64,14 @@ netease_comment: false
 # ba_track_id: [your track id]
 
 # Google Analytics
-ga_track_id: 'UA-49627206-1'            # Format: UA-xxxxxx-xx
-ga_domain: huangxuan.me
+# ga_track_id: 'UA-49627206-1'            # Format: UA-xxxxxx-xx
+# ga_domain: huangxuan.me
 
 
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "For the next quantum leap<br>离开世界之前，一切都是过程"
+sidebar-about-description: "기술혁신의 사각지대에 있는 사람들을 위해 노력하는 스타트업입니다."
 sidebar-avatar: /img/waddle-logo-bottom.png      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
@@ -96,28 +96,25 @@ page-mathjax: false
 # Friends
 friends: [
     {
-    #     title: "Su",
-    #     href: "http://su.gallery/"
-    # },{
         title: "이요님",
-        href: ""
+        href: "jihyuk@waddlelab.com"
     },{
         title: "구리님",
-        href: ""
+        href: "minseong@waddlelab.com"
     },{
         title: "렉스님",
-        href: ""
+        href: "jaehong@waddlelab.com"
     },{
         title: "예띠님",
-        href: ""
+        href: "yeji@waddlelab.com"
     },{
         title: "램프님",
-        href: ""
+        href: "jinhee@waddlelab.com"
     },{
         title: "센님",
-        href: ""
+        href: "taeyeong@waddlelab.com"
     },{
         title: "램프님",
-        href: ""
+        href: "jungeun@waddlelab.com"
     }
 ]
