@@ -97,24 +97,24 @@ page-mathjax: false
 friends: [
     {
         title: "이요님",
-        href: "jihyuk@waddlelab.com"
+        href: "mailto:jihyuk@waddlelab.com"
     },{
         title: "구리님",
-        href: "minseong@waddlelab.com"
+        href: "mailto:minseong@waddlelab.com"
     },{
         title: "렉스님",
-        href: "jaehong@waddlelab.com"
+        href: "mailto:jaehong@waddlelab.com"
     },{
         title: "예띠님",
-        href: "yeji@waddlelab.com"
+        href: "mailto:yeji@waddlelab.com"
     },{
         title: "램프님",
-        href: "jinhee@waddlelab.com"
+        href: "mailto:jinhee@waddlelab.com"
     },{
         title: "센님",
-        href: "taeyeong@waddlelab.com"
+        href: "mailto:taeyeong@waddlelab.com"
     },{
         title: "램프님",
-        href: "jungeun@waddlelab.com"
+        href: "mailto:jungeun@waddlelab.com"
     }
 ]
