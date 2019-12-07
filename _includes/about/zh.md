@@ -1,26 +1,56 @@
-> 사회적 약자를 위한 기술기반 스타트업
+> ​기술혁신의 사각지대를 비추는 스타트업
+
 
 안녕하세요, 주식회사 와들입니다. 와들은 7명의 KAIST 학부생들이 모인 스타트업입니다.
 
 ##### 와들을 만드는 사람들
 
-> 오늘 걷지 않으면 내일 뛰어야 한다__`이요`  
+> 오늘 걷지 않으면 내일 뛰어야 한다__`이요`
+  ​박지혁  |  Iyo Park
+  ​대표  |  CEO
+  jihyuk@waddlelab.com
+  
 
 > 처음에 성공하지 못했다고 생각하면 성공의 정의를 바꾸어보아라!__`구리`
+  장민성  |  Guri Jang
+  소프트웨어 엔지니어
+  minseong@waddlelab.com
+  
 
 > Here Me Roar__`렉스`
+  김재홍  |  Rex Kim
+  제품총괄  |  PM
+  jaehong@waddlelab.com
 
-> 답은 이미 내 안에 있으니__`예띠`  
+
+> 답은 이미 내 안에 있으니__`예띠` 
+  한예지  |  Yeddi Han
+  소프트웨어 ​엔지니어
+  yeji@waddlelab.com
+
 
 > 성실함, 이 오래된 무기는 절대 녹이 스는 법이 없다__`램프`
+  유진희  |  Lamp Ryu
+  소프트웨어 엔지니어 (iOS)
+  jinhee@waddlelab.com
+  
 
 > 널 구해줄 신 따위는 없다__`센`
+  허태영  |  Sane Heo
+  기술총괄  |  CTO
+  taeyeong@waddlelab.com
 
-> 일 할 땐 일에만 집중하고 놀 땐 노는 것에만 집중해라
 
-> 일 할 땐 일에만 집중하고 놀 땐 노는 것에만 집중해라__`이즈`
+> 일 할 땐 일에만 집중하고 놀 땐 노는 것에만 집중해라__`이즈` 
+  ​김정은  |  Izz Kim
+  소프트웨어 엔지니어 (Android)
+  jungeun@waddlelab.com
+
 
 > 유능한 안보 튼튼한 국방__`콰써`
+  조용원  |  QC Cho
+  일병 (~21.01.25)
+  yongwon@waddlelab.com
 
 ##### 와들이 하는 일
 
