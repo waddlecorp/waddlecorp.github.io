@@ -71,7 +71,7 @@ netease_comment: false
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "기술혁신의 사각지대에 있는 사람들을 위해 노력하는 스타트업입니다."
+sidebar-about-description: "기술혁신의 사각지대에 있는 사람들을 위해 노력하는 스타트업, 와들의 개발자입니다."
 sidebar-avatar: /img/waddle-logo-bottom.png      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
