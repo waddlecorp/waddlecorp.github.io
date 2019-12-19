@@ -5,49 +5,49 @@
 
 ##### 와들을 만드는 사람들
 
-> 오늘 걷지 않으면 내일 뛰어야 한다__`이요`  
+> **"오늘 걷지 않으면 내일 뛰어야 한다"** - `이요`  
   ​박지혁  |  Iyo Park  
   ​대표  |  CEO  
   jihyuk@waddlelab.com  
   
 
-> 처음에 성공하지 못했다고 생각하면 성공의 정의를 바꾸어보아라!__`구리`  
+> **"처음에 성공하지 못했다고 생각하면 성공의 정의를 바꾸어보아라!"** - `구리`  
   장민성  |  Guri Jang  
   소프트웨어 엔지니어  
   minseong@waddlelab.com  
   
 
-> Here Me Roar__`렉스`  
+> **"Here Me Roar"** - `렉스`  
   김재홍  |  Rex Kim  
   제품총괄  |  PM  
   jaehong@waddlelab.com  
 
 
-> 답은 이미 내 안에 있으니__`예띠`   
+> **"답은 이미 내 안에 있으니"** - `예띠`   
   한예지  |  Yeddi Han  
   소프트웨어 ​엔지니어  
   yeji@waddlelab.com  
 
 
-> 성실함, 이 오래된 무기는 절대 녹이 스는 법이 없다__`램프`  
+> **"성실함, 이 오래된 무기는 절대 녹이 스는 법이 없다"** - `램프`  
   유진희  |  Lamp Ryu  
   소프트웨어 엔지니어 (iOS)  
   jinhee@waddlelab.com  
   
 
-> 널 구해줄 신 따위는 없다__`센`  
+> **"널 구해줄 신 따위는 없다"** - `센`  
   허태영  |  Sane Heo  
   기술총괄  |  CTO  
   taeyeong@waddlelab.com  
 
 
-> 일 할 땐 일에만 집중하고 놀 땐 노는 것에만 집중해라__`이즈`   
+> **"일 할 땐 일에만 집중하고 놀 땐 노는 것에만 집중해라"** - `이즈`   
   ​김정은  |  Izz Kim  
   소프트웨어 엔지니어 (Android)  
   jungeun@waddlelab.com  
 
 
-> 유능한 안보 튼튼한 국방__`콰써`  
+> **"유능한 안보 튼튼한 국방"** - `콰써`  
   조용원  |  QC Cho  
   일병 (~21.01.25)  
   yongwon@waddlelab.com  
