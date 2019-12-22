@@ -33,8 +33,8 @@ tags:
 #### 그렇다면 왜 굳이 Telegram을 썼지?  
 
 나는 챗봇에게 두가지 기능을 원했다.
-1. 자연어 처리를 능숙하게 할 수 있는 챗봇이 아닌, 정해진 요청에 정해진 응답을 할 수 있는 챗봇
-2. 실시간으로 우리에게 알림을 줄 수 있어야하므로, 들어온 채팅에만 대답할 수 있는 챗봇이 아닌 **사용자에게 먼저 연락을 할 수 있는 챗봇**  
+1. 자연어 처리보다는, 정해진 요청에 정해진 응답을 할 수 있는 챗봇
+2. 들어온 채팅에만 대답할 수 있는 챗봇이 아닌 **사용자에게 먼저 연락을 할 수 있는 챗봇**  
 
 두번 째 조건을 만족하는 챗봇을 찾기가 굉장히 어려웠다.  
 
@@ -309,7 +309,6 @@ def manager_order(id):
 - 함수의 기능  
     1. 일반 메세지와 답장 메세지 구분
     2. 메세지에 따른 함수 처리
-    3. MYSQL 사용하여 DB 정보 받아옴
 
 나는 크게 메세지를 두가지로 나눴다.   
 첫번째는 일반 메세지가 온 경우,  
@@ -319,7 +318,6 @@ def manager_order(id):
 id는 bot.message.chat.id, 메세지는 bot.message.text,  
 답장으로 온 경우 기존 메세지는 bot.message.reply_to_message.text에  
 담겨있다는 것을 알 수 있다.  
-따라서 나는 다음과 같이 처리했다.  
 
 ```
 def text(bot, update):
@@ -327,10 +325,6 @@ def text(bot, update):
         complete_order(bot.message.chat.id, bot.message.reply_to_message.text, bot.message.text)
     elif bot.message.reply_to_message is not None:
         waddle.sendMessage(bot.message.chat.id, "양식을 잘 못 입력했습니다")
-    elif bot.message.text[0:2]=='이름':
-        show_user(bot.message.chat.id, bot.message.text)
-    else:
-        waddle.sendMessage(bot.message.chat.id, "웰컴이에요~")
 ```
 complete_order은 주문정보를 보고 주문을 한 다음 답장으로 완료를 보내면 일어난다.  
 나는 이때 추가적인 mysql처리를 해주었지만, 여기서는 따로 나타내지 않겠다.  
@@ -344,27 +338,6 @@ def complete_order(id, reply_text, text):
 
     except:
         print("error from complete_order")
-```
-show_user은 "이름"+사용자 이름이 들어왔을 때 사용자의 정보를 알려주는 함수이다.  
-이는 전화 응대를 할 때 필요하다.  
-
-```
-def show_user(id, name):
-    try:
-        name = name[3:]
-        user_list = execute(f"""SELECT * FROM User WHERE Name='{name}';""", True)    
-
-        if len(user_list) == 0:
-            waddle.sendMessage(id, "해당 이름을 가진 사용자가 존재하지 않습니다.")
-        
-        comment = "해당 이름을 가진 사용자의 목록입니다.\n"
-        for user in user_list:
-            comment += user + "\n"
-
-        waddle.sendMessage(id, comment)
-
-    except:
-        print("error from show_user")
 ```
 
 ##### 7. error
@@ -467,25 +440,6 @@ def callback_get(bot, update):
     elif bot.callback_query.data=="no": 
         waddle.sendMessage(bot.callback_query.message.chat.id, "다음 기회에..")
 
-
-def show_user(id, name):
-    try:
-        name = name[3:]
-        user_list = execute(f"""SELECT * FROM User WHERE Name='{name}';""", True)    
-
-        if len(user_list) == 0:
-            waddle.sendMessage(id, "해당 이름을 가진 사용자가 존재하지 않습니다.")
-        
-        comment = "해당 이름을 가진 사용자의 목록입니다.\n"
-        for user in user_list:
-            comment += user + "\n"
-
-        waddle.sendMessage(id, comment)
-
-    except:
-        print("error from show_user")
-
-
 ### text came
 def text(bot, update):
     print(bot.message)
@@ -493,10 +447,6 @@ def text(bot, update):
         complete_order(bot.message.chat.id, bot.message.reply_to_message.text, bot.message.text)
     elif bot.message.reply_to_message is not None:
         waddle.sendMessage(bot.message.chat.id, "양식을 잘 못 입력했습니다")
-    elif bot.message.text[0:2]=='이름':
-        show_user(bot.message.chat.id, bot.message.text)
-    else:
-        waddle.sendMessage(bot.message.chat.id, "웰컴이에요~")
 
 
 ### print log
