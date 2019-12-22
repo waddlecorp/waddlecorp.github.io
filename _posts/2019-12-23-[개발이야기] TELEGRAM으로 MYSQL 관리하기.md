@@ -34,7 +34,8 @@ tags:
 
 나는 챗봇에게 두가지 기능을 원했다.
 1. 자연어 처리를 능숙하게 할 수 있는 챗봇이 아닌, 정해진 요청에 정해진 응답을 할 수 있는 챗봇
-2. 실시간으로 우리에게 알림을 줄 수 있어야하므로, 들어온 채팅에만 대답할 수 있는 챗봇이 아닌 **사용자에게 먼저 연락을 할 수 있는 챗봇**
+2. 실시간으로 우리에게 알림을 줄 수 있어야하므로, 들어온 채팅에만 대답할 수 있는 챗봇이 아닌 **사용자에게 먼저 연락을 할 수 있는 챗봇**  
+
 두번 째 조건을 만족하는 챗봇을 찾기가 굉장히 어려웠다.  
 
 카카오톡 플러스친구, 페이스북 메시지 등 다양한 방법을 알아보았지만, 두가지 조건을 만족하는 만족하는 챗봇은 텔레그램 밖에 없었다. 그래서 Telegram을 시작했다.
@@ -43,8 +44,14 @@ tags:
 
 ##### 1. 구조 만들기
 
-먼저, ChatBotModel.py에 구조를 만든다.
+먼저, ChatBotModel.py에 구조를 만든다.  
 [다음 링크](https://www.siteguarding.com/en/how-to-get-telegram-bot-api-token)를 참고하여 token을 만들자.
+토큰 자리에 꼭 본인 토큰을 넣어주어야한다.
+
+add_handler은 /order 처럼 '/'+문자열 을 인식하는 핸들러다.
+query_handler은 버튼 클릭 등을 인식하는 핸들러다. 
+message_handler은 채팅을 인식하는 핸들러다.
+error_handler은 에러를 인식하는 핸들러다.
 
 ```
 import telegram
@@ -71,19 +78,15 @@ class WaddleBot(TelegramBot):
         TelegramBot.__init__(self, '와들', self.token)
         self.updater.stop()
 
-    #add_handler은 /order 처럼 '/'+문자열 을 인식하는 핸들러다.
     def add_handler(self, cmd, func):
         self.updater.dispatcher.add_handler(CommandHandler(cmd, func))
 
-    #query_handler은 버튼 클릭 등을 인식하는 핸들러다. 
     def add_query_handler(self, func):
         self.updater.dispatcher.add_handler(CallbackQueryHandler(func))
 
-    #message_handler은 채팅을 인식하는 핸들러다.
     def add_message_handler(self, func):
         self.updater.dispatcher.add_handler(MessageHandler(Filters.text, func))
 
-    #error_handler은 에러를 인식하는 핸들러다.
     def add_error_handler(self, func):
         self.updater.dispatcher.add_error_handler(func)
 
@@ -96,6 +99,12 @@ class WaddleBot(TelegramBot):
 ##### 2. 챗봇 시작하기
 
 ChatBot.py를 만들어 챗봇을 시작한다.
+
+
+/order가 들어오면 check_order을 실행한다
+버튼이 눌리면 callback_get을 실행한다
+메세지가 들어오면 text을 실행한다    
+에러가 들어오면 error을 실행한다
 
 ```
 import ChatBotModel
@@ -110,18 +119,10 @@ if __name__ == '__main__':
 
     waddle = ChatBotModel.WaddleBot()
 
-    # /order가 들어오면 check_order을 실행한다
     waddle.add_handler('order', check_order)
-    
-    # 버튼이 눌리면 callback_get을 실행한다
     waddle.add_query_handler(callback_get)
-
-    # 메세지가 들어오면 text을 실행한다
     waddle.add_message_handler(text)
-    
-    # 에러가 들어오면 error을 실행한다
     waddle.add_error_handler(error)
-
     waddle.start()
 ```
 
@@ -160,11 +161,11 @@ def execute(sql, flag=False):
         db.commit()
         return None
 ```
-자 이제 watch 함수를 살펴보자.
-간단히 설명하자면 결제 된 상품이 있을 때 check_order2()를 실행하는 함수이다.
-이 함수는 10분마다 반복적으로 일어난다.
-123456 자리에는 메세지를 받을 사람의 id를 적는다.
-그 사람의 id를 찾아내는 방법은 뒤에 설명하겠다.
+자 이제 watch 함수를 살펴보자.  
+간단히 설명하자면 결제 된 상품이 있을 때 check_order2()를 실행하는 함수이다.  
+이 함수는 10분마다 반복적으로 일어난다.  
+123456 자리에는 메세지를 받을 사람의 id를 적는다.  
+그 사람의 id를 찾아내는 방법은 뒤에 설명하겠다.  
 
 ```
 def watch():
@@ -176,9 +177,9 @@ def watch():
             
         time.sleep(600)
 ```
-마지막으로 언급된 check_order2 함수를 살펴보자.
-다음 사진처럼 메세지에 "응 내가 할게", "지금 바빠" 이렇게 두개의 버튼을 만들어서 보내는 방법이다.
-버튼이 눌렸을 때의 처리는 뒤에 나온다.
+마지막으로 언급된 check_order2 함수를 살펴보자.  
+다음 사진처럼 메세지에 "응 내가 할게", "지금 바빠" 이렇게 두개의 버튼을 만들어서 보내는 방법이다.  
+버튼이 눌렸을 때의 처리는 뒤에 나온다.  
 
 ```
 def build_menu(buttons, n_cols, header_buttons=None, footer_buttons=None):
@@ -207,13 +208,13 @@ def check_order2(id):
 
 ##### 4. check_order
 
-위에서 왜 함수 이름이 check_order2 인지 궁금했을 것이다. 아님 말고.
-하여튼 이 함수는 위의 watch 함수와 굉장히 비슷하게 돌아간다.
-유일한 차이점은 watch는 사용자의 동작 없이도 주기적으로 일어나고, check_order은 사용자가 원할 때 일어난다는 것이다.
+위에서 왜 함수 이름이 check_order2 인지 궁금했을 것이다. 아님 말고.  
+하여튼 이 함수는 위의 watch 함수와 굉장히 비슷하게 돌아간다.  
+유일한 차이점은 watch는 사용자의 동작 없이도 주기적으로 일어나고, check_order은 사용자가 원할 때 일어난다는 것이다.  
 
-핸들러는 항상 두가지 parameter bot, args을 받아야한다.
-그리고 bot을 print 하면 모든 정보가 담겨 나온다.
-다음은 내가 /order을 입력했을 때 bot.message 안에 담긴 정보이다.
+핸들러는 항상 두가지 parameter bot, args을 받아야한다.  
+그리고 bot을 print 하면 모든 정보가 담겨 나온다.  
+다음은 내가 /order을 입력했을 때 bot.message 안에 담긴 정보이다.  
 
 ```
 {
@@ -244,9 +245,9 @@ def check_order2(id):
     }
 }
 ```
-이 때 내 id는 chat.id에 담겨있다.
-따라서 내 아이디는 bot.message.chat.id를 통해 알 수 있다.
-그렇다면 check_order 함수는 다음과 같이 나타낼 수 있다.
+이 때 내 id는 chat.id에 담겨있다.  
+따라서 내 아이디는 bot.message.chat.id를 통해 알 수 있다.  
+그렇다면 check_order 함수는 다음과 같이 나타낼 수 있다.  
 
 ```
 def check_order(bot, args):
@@ -255,11 +256,11 @@ def check_order(bot, args):
 
 ##### 5. callback_get
 
-다음은 버튼이 눌렸을 때의 처리이다.
-위에서 말했던 것 처럼 bot.message을 출력해보면 
-callback_data의 값이 bot.callback_query.data 안에,
-id 값이 bot.callback_query.message.chat.id 안에 담겨있는 것을 확인할 수 있다.
-이를 통해 다음과 같은 함수를 짤 수 있다.
+다음은 버튼이 눌렸을 때의 처리이다.  
+위에서 말했던 것 처럼 bot.message을 출력해보면   
+callback_data의 값이 bot.callback_query.data 안에,  
+id 값이 bot.callback_query.message.chat.id 안에 담겨있는 것을 확인할 수 있다.  
+이를 통해 다음과 같은 함수를 짤 수 있다.  
 
 ```
 def callback_get(bot, update):
@@ -285,13 +286,13 @@ def manager_order(id):
 
 #### 6. text
 
-나는 크게 메세지를 두가지로 나눴다. 
-첫번째는 그냥 메세지가 온 경우,
-두번째는 답장 메세지가 온 경우이다.
+나는 크게 메세지를 두가지로 나눴다.   
+첫번째는 그냥 메세지가 온 경우,  
+두번째는 답장 메세지가 온 경우이다.  
 
-마찬가지로 bot.message을 출력해보면 둘은 bot.message.reply_to_message의 유무로 비교할 수 있고,
-id는 bot.message.chat.id, 메세지는 bot.message.text, 답장으로 온 경우 기존 메세지는 bot.message.reply_to_message.text에 담겨있다는 것을 알 수 있다.
-따라서 나는 다음과 같이 처리했다.
+마찬가지로 bot.message을 출력해보면 둘은 bot.message.reply_to_message의 유무로 비교할 수 있고,  
+id는 bot.message.chat.id, 메세지는 bot.message.text, 답장으로 온 경우 기존 메세지는   bot.message.reply_to_message.text에 담겨있다는 것을 알 수 있다.  
+따라서 나는 다음과 같이 처리했다.  
 
 ```
 def text(bot, update):
@@ -304,9 +305,9 @@ def text(bot, update):
     else:
         waddle.sendMessage(bot.message.chat.id, "웰컴이에요~")
 ```
-complete_order은 주문정보를 보고 주문을 한 다음 답장으로 완료를 보내면 일어난다.
-나는 이때 추가적인 mysql처리를 해주었지만, 여기서는 따로 나타내지 않겠다.
-함수는 다음과 같이 나타낼 수 있다.
+complete_order은 주문정보를 보고 주문을 한 다음 답장으로 완료를 보내면 일어난다.  
+나는 이때 추가적인 mysql처리를 해주었지만, 여기서는 따로 나타내지 않겠다.  
+함수는 다음과 같이 나타낼 수 있다.  
 
 ```
 def complete_order(id, reply_text, text):
@@ -317,8 +318,8 @@ def complete_order(id, reply_text, text):
     except:
         print("error from complete_order")
 ```
-show_user은 "이름"+사용자 이름이 들어왔을 때 사용자의 정보를 알려주는 함수이다.
-이는 전화 응대를 할 때 필요하다.
+show_user은 "이름"+사용자 이름이 들어왔을 때 사용자의 정보를 알려주는 함수이다.  
+이는 전화 응대를 할 때 필요하다.  
 
 ```
 def show_user(id, name):
@@ -341,8 +342,8 @@ def show_user(id, name):
 
 ##### 7. error
 
-마지막으로 에러처리이다.
-챗봇에서 에러가 나면 자동으로 다음 함수가 실행된다.
+마지막으로 에러처리이다.  
+챗봇에서 에러가 나면 자동으로 다음 함수가 실행된다.  
 
 ```
 def error(bot, update):
