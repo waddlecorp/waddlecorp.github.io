@@ -45,13 +45,13 @@ tags:
 ##### 1. 구조 만들기
 
 먼저, ChatBotModel.py에 구조를 만든다.  
-[다음 링크](https://www.siteguarding.com/en/how-to-get-telegram-bot-api-token)를 참고하여 token을 만들자.
+[다음 링크](https://www.siteguarding.com/en/how-to-get-telegram-bot-api-token)를 참고하여 token을 만들자.  
 토큰 자리에 꼭 본인 토큰을 넣어주어야한다.
 
-add_handler은 /order 처럼 '/'+문자열 을 인식하는 핸들러다.
-query_handler은 버튼 클릭 등을 인식하는 핸들러다. 
-message_handler은 채팅을 인식하는 핸들러다.
-error_handler은 에러를 인식하는 핸들러다.
+add_handler은 /order 처럼 '/'+문자열 을 인식하는 핸들러다.  
+query_handler은 버튼 클릭 등을 인식하는 핸들러다.   
+message_handler은 채팅을 인식하는 핸들러다.  
+error_handler은 에러를 인식하는 핸들러다.  
 
 ```
 import telegram
@@ -101,10 +101,10 @@ class WaddleBot(TelegramBot):
 ChatBot.py를 만들어 챗봇을 시작한다.
 
 
-/order가 들어오면 check_order을 실행한다
-버튼이 눌리면 callback_get을 실행한다
-메세지가 들어오면 text을 실행한다    
-에러가 들어오면 error을 실행한다
+/order가 들어오면 check_order을 실행한다  
+버튼이 눌리면 callback_get을 실행한다  
+메세지가 들어오면 text을 실행한다      
+에러가 들어오면 error을 실행한다  
 
 ```
 import ChatBotModel
@@ -137,7 +137,7 @@ if __name__ == '__main__':
     1. MYSQL과 연동
     2. 주문이 들어왔으면 버튼이 담긴 주문 알림 보내기
 
-먼저 MYSQL과 연동 부분부터 알아보겠다.
+먼저 MYSQL과 연동 부분부터 알아보겠다.  
 main함수에 mysql을 추가한다.
 
 ```
@@ -178,7 +178,8 @@ def watch():
         time.sleep(600)
 ```
 마지막으로 언급된 check_order2 함수를 살펴보자.  
-다음 사진처럼 메세지에 "응 내가 할게", "지금 바빠" 이렇게 두개의 버튼을 만들어서 보내는 방법이다.  
+다음 사진처럼 메세지에 "응 내가 할게", "지금 바빠"  
+이렇게 두개의 버튼을 만들어서 보내는 방법이다.  
 버튼이 눌렸을 때의 처리는 뒤에 나온다.  
 
 ```
@@ -217,7 +218,8 @@ def check_order2(id):
 
 위에서 왜 함수 이름이 check_order2 인지 궁금했을 것이다. 아님 말고.  
 하여튼 이 함수는 위의 watch 함수와 굉장히 비슷하게 돌아간다.  
-유일한 차이점은 watch는 사용자의 동작 없이도 주기적으로 일어나고, check_order은 사용자가 원할 때 일어난다는 것이다.  
+유일한 차이점은 watch는 사용자의 동작 없이도 주기적으로 일어나고,  
+check_order은 사용자가 원할 때 일어난다는 것이다.  
 
 핸들러는 항상 두가지 parameter bot, args을 받아야한다.  
 그리고 bot을 print 하면 모든 정보가 담겨 나온다.  
@@ -313,8 +315,10 @@ def manager_order(id):
 첫번째는 일반 메세지가 온 경우,  
 두번째는 답장 메세지가 온 경우이다.  
 
-마찬가지로 bot.message을 출력해보면 둘은 bot.message.reply_to_message의 유무로 비교할 수 있고,  
-id는 bot.message.chat.id, 메세지는 bot.message.text, 답장으로 온 경우 기존 메세지는   bot.message.reply_to_message.text에 담겨있다는 것을 알 수 있다.  
+마찬가지로 bot.message을 출력해보면 둘은 reply_to_message의 유무로 비교할 수 있고,  
+id는 bot.message.chat.id, 메세지는 bot.message.text,  
+답장으로 온 경우 기존 메세지는 bot.message.reply_to_message.text에  
+담겨있다는 것을 알 수 있다.  
 따라서 나는 다음과 같이 처리했다.  
 
 ```
