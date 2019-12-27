@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "[개발이야기] Telegram ChatBot으로 MYSQL 관리하기"
+title:      "[개발이야기] Telegram ChatBot으로 MYSQL 실시간 관리하기 1"
 subtitle:   " \"와들 쇼핑 개발 과정\""
 date:       2019-12-23 12:00:00
 author:     "이즈"
@@ -14,6 +14,7 @@ tags:
     - 텔레그램
     - 챗봇
     - 연동
+    - 실시간
     - 관리
     - 알림
 ---
@@ -44,8 +45,12 @@ tags:
 
 ##### 1. 구조 만들기
 
+이번 편에서는 텔레그램의 작동법에 대해 설명하고,  
+다음 편에서는 이를 사용해서 MYSQL과 연동하는 법 위주로 설명하겠다.  
+
 먼저, ChatBotModel.py에 구조를 만든다.  
-[다음 링크](https://www.siteguarding.com/en/how-to-get-telegram-bot-api-token)를 참고하여 token을 만들자.  
+먼저 코드에 넣을 토큰을 발급 받아야한다.  
+토큰은 [다음 링크](https://www.siteguarding.com/en/how-to-get-telegram-bot-api-token)를 참고하여 만들면 된다.  
 토큰 자리에 꼭 본인 토큰을 넣어주어야한다.
 
 add_handler은 /order 처럼 '/'+문자열 을 인식하는 핸들러다.  
@@ -131,7 +136,7 @@ if __name__ == '__main__':
 ##### 3. watch
 
 - 함수의 목적  
-    이 함수는 주시적으로 계속 주문목록을 확인한다.
+    주기적으로 주문목록을 확인한다.
 
 - 함수의 기능  
     1. MYSQL과 연동
@@ -210,18 +215,19 @@ def check_order2(id):
 ##### 4. check_order
 
 - 함수의 목적  
-    이 함수는 사용자가 원할 때 주문목록을 확인한다.  
+    사용자가 원할 때 주문목록을 확인한다.  
 
 - 함수의 기능  
     1. bot.message 분석
     2. landler 처리
 
-위에서 왜 함수 이름이 check_order2 인지 궁금했을 것이다. 아님 말고.  
+위에서 왜 함수 이름이 check_order2 인지 궁금했을 것이다. 아님 말고.
+그 이유는 바로 handler 처리에서 이미 check_order을 사용해서이다.    
 하여튼 이 함수는 위의 watch 함수와 굉장히 비슷하게 돌아간다.  
 유일한 차이점은 watch는 사용자의 동작 없이도 주기적으로 일어나고,  
 check_order은 사용자가 원할 때 일어난다는 것이다.  
 
-핸들러는 항상 두가지 parameter bot, args을 받아야한다.  
+핸들러는 항상 두가지 파라미터 bot, args을 받아야한다.  
 그리고 bot을 print 하면 모든 정보가 담겨 나온다.  
 다음은 내가 /order을 입력했을 때 bot.message 안에 담긴 정보이다.  
 
@@ -266,7 +272,7 @@ def check_order(bot, args):
 ##### 5. callback_get
 
 - 함수의 목적  
-    이 함수는 버튼의 클릭을 감지한다.
+    버튼의 클릭을 감지한다.
 
 - 함수의 기능  
     1. bot.callback_query 분석
@@ -291,10 +297,7 @@ manager_order에서는 주문 정보를 보내주었다.
 ```
 def manager_order(id):
     try:
-        order_request = execute(f"""SELECT * FROM Ordered WHERE Status='payed';""", True)
-        execute(f"""UPDATE Ordered SET Status='order request' WHERE Status='payed';""")
-
-        comment = "order_request를 사용해서 보내고 싶은 메세지를 보내주세요."
+        comment = "주문 정보는 다음과 같습니다.\n어쩌구저쩌구.."
         waddle.sendMessage(id, comment)
 
     except:
@@ -304,7 +307,7 @@ def manager_order(id):
 #### 6. text
 
 - 함수의 목적  
-    이 함수는 모든 메세지를 감지한다.
+    모든 메세지를 감지한다.
 
 - 함수의 기능  
     1. 일반 메세지와 답장 메세지 구분
@@ -343,7 +346,7 @@ def complete_order(id, reply_text, text):
 ##### 7. error
 
 - 함수의 목적  
-    이 함수는 에러를 감지한다.
+    에러를 감지한다.
 
 - 함수의 기능  
     1. 에러 감지
@@ -366,24 +369,11 @@ import sys
 import ChatBotModel
 import requests
 import logging
-import pymysql
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Updater
 import json
 import threading
 import time
-
-### execute SQL Query
-def execute(sql, flag=False):
-    with db.cursor() as cursor:
-        cursor.execute(sql)
-        if flag:
-            result = cursor.fetchall()
-            db.commit()
-            return result
-        db.commit()
-        return None
-
 
 ### make button
 def build_menu(buttons, n_cols, header_buttons=None, footer_buttons=None):
@@ -397,15 +387,12 @@ def build_menu(buttons, n_cols, header_buttons=None, footer_buttons=None):
 
 def check_order2(id):
     try:
-        order_request = execute(f"""SELECT * FROM Ordered WHERE Status='payed';""", True)
-        request_len = len(order_request)
-
         set_menu = []
         set_menu.append(InlineKeyboardButton("응 내가 할게", callback_data="yes")) 
         set_menu.append(InlineKeyboardButton("지금 바빠", callback_data="no"))
         set_menu_markup = InlineKeyboardMarkup(build_menu(set_menu, len(set_menu) - 1)) 
 
-        waddle.sendMessage(id, "결제 요청 "+str(request_len)+"건이 들어왔습니다.\n맡아 결제 하시겠습니까?", reply_markup=set_menu_markup)
+        waddle.sendMessage(id, "결제 요청이 들어왔습니다.\n맡아 결제 하시겠습니까?", reply_markup=set_menu_markup)
     
     except:
         print("error from check_order")
@@ -415,10 +402,7 @@ def check_order(bot, args):
     
 def manager_order(id):
     try:
-        order_request = execute(f"""SELECT * FROM Ordered WHERE Status='payed';""", True)
-        execute(f"""UPDATE Ordered SET Status='order request' WHERE Status='payed';""")
-
-        comment = "order_request를 사용해서 보내고 싶은 메세지를 보내주세요."
+        comment = "주문 정보는 다음과 같습니다.\n어쩌구저쩌구.."
         waddle.sendMessage(id, comment)
 
     except:
@@ -426,7 +410,7 @@ def manager_order(id):
 
 def complete_order(id, reply_text, text):
     try:
-        comment = "reply_text와 text를 사용해서 보내고 싶은 메세지를 보내주세요."        
+        comment = reply_text + "의 답장은 " + text + "입니다."        
         waddle.sendMessage(id, comment)
 
     except:
@@ -443,11 +427,10 @@ def callback_get(bot, update):
 ### text came
 def text(bot, update):
     print(bot.message)
-    if bot.message.reply_to_message is not None and len(bot.message.text) == 14:
+    if bot.message.reply_to_message is not None:
         complete_order(bot.message.chat.id, bot.message.reply_to_message.text, bot.message.text)
-    elif bot.message.reply_to_message is not None:
-        waddle.sendMessage(bot.message.chat.id, "양식을 잘 못 입력했습니다")
-
+    else:
+        waddle.sendMessage(bot.message.chat.id, "환영합니다")
 
 ### print log
 def error(bot, update):
@@ -455,27 +438,7 @@ def error(bot, update):
     logger.warning('Update "%s" caused error "%s"', bot, update.error)
 
 
-def watch():
-    while True: 
-
-        order_request = execute(f"""SELECT * FROM Ordered WHERE Status='payed';""", True)
-        if len(order_request) != 0:
-            check_order2(123456)
-
-        time.sleep(600)
-
-
 if __name__ == '__main__':
-    
-    db = pymysql.connect(host=**본인의 host**, # ex. chatbot-telegram.abcdefg.ap-northeast-2.rds.amazonaws.com
-                        port=**본인의 port**, # ex. 3306
-                        user=**본인의 user**, # ex. admin
-                        passwd=**본인의 passwd**, # ex. Telegram!
-                        db=**본인의 db**, # ex. User
-                        charset='utf8')
-
-    t = threading.Thread(target=watch)
-    t.start()
 
     waddle = ChatBotModel.WaddleBot()
     waddle.add_handler('order', check_order)
