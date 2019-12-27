@@ -118,10 +118,6 @@ from telegram.ext import Updater
 
 if __name__ == '__main__':
 
-    # 다른 쓰레드에서 watch를 실행한다
-    t = threading.Thread(target=watch)
-    t.start()
-
     waddle = ChatBotModel.WaddleBot()
 
     waddle.add_handler('order', check_order)
@@ -133,58 +129,10 @@ if __name__ == '__main__':
 
 이 다음부터는 앞서 핸들러에서 언급된 함수 네개와 쓰래드에서 언급된 watch 함수를 설명하겠다.
 
-##### 3. watch
-
-- 함수의 목적  
-    주기적으로 주문목록을 확인한다.
-
-- 함수의 기능  
-    1. MYSQL과 연동
-    2. 주문이 들어왔으면 버튼이 담긴 주문 알림 보내기
-
-먼저 MYSQL과 연동 부분부터 알아보겠다.  
-main함수에 mysql을 추가한다.
-
-```
-    db = pymysql.connect(host=**본인의 host**,
-                        port=**본인의 port**,
-                        user=**본인의 user**,
-                        passwd=**본인의 passwd**,
-                        db=**본인의 db**,
-                        charset='utf8')
-```
-그리고 db를 실행시키기 위해 execute라는 함수를 만든다.
-
-```
-def execute(sql, flag=False):
-    with db.cursor() as cursor:
-        cursor.execute(sql)
-        if flag:
-            result = cursor.fetchall()
-            db.commit()
-            return result
-        db.commit()
-        return None
-```
-자 이제 watch 함수를 살펴보자.  
-간단히 설명하자면 결제 된 상품이 있을 때 check_order2()를 실행하는 함수이다.  
-이 함수는 10분마다 반복적으로 일어난다.  
-123456 자리에는 메세지를 받을 사람의 id를 적는다.  
-그 사람의 id를 찾아내는 방법은 뒤에 설명하겠다.  
-
-```
-def watch():
-    while True: 
-
-        order_request = execute(f"""SELECT * FROM Ordered WHERE Status='payed';""", True)
-        if len(order_request) != 0:
-            check_order2(123456)
-            
-        time.sleep(600)
-```
 마지막으로 언급된 check_order2 함수를 살펴보자.  
 다음 사진처럼 메세지에 "응 내가 할게", "지금 바빠"  
-이렇게 두개의 버튼을 만들어서 보내는 방법이다.  
+이렇게 두개의 버튼을 만들어서 보내는 방법이다.
+<img src="/img/02-button.png" width="80%" alt="키를 발급받은 사진">  
 버튼이 눌렸을 때의 처리는 뒤에 나온다.  
 
 ```
@@ -276,8 +224,6 @@ def check_order(bot, args):
 
 - 함수의 기능  
     1. bot.callback_query 분석
-    2. MYSQL 사용하여 DB 정보 받아옴
-    3. MYSQL 사용하여 DB 정보 변경함
 
 다음은 버튼이 눌렸을 때의 처리이다.  
 위에서 말했던 것 처럼 bot.message을 출력해보면   
@@ -324,10 +270,10 @@ id는 bot.message.chat.id, 메세지는 bot.message.text,
 
 ```
 def text(bot, update):
-    if bot.message.reply_to_message is not None and bot.message.text[0:2] == "완료":
+    if bot.message.reply_to_message is not None:
         complete_order(bot.message.chat.id, bot.message.reply_to_message.text, bot.message.text)
-    elif bot.message.reply_to_message is not None:
-        waddle.sendMessage(bot.message.chat.id, "양식을 잘 못 입력했습니다")
+    else:
+        waddle.sendMessage(bot.message.chat.id, "환영합니다")
 ```
 complete_order은 주문정보를 보고 주문을 한 다음 답장으로 완료를 보내면 일어난다.  
 나는 이때 추가적인 mysql처리를 해주었지만, 여기서는 따로 나타내지 않겠다.  
