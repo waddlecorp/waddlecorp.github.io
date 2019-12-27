@@ -132,7 +132,7 @@ if __name__ == '__main__':
 마지막으로 언급된 check_order2 함수를 살펴보자.  
 다음 사진처럼 메세지에 "응 내가 할게", "지금 바빠"  
 이렇게 두개의 버튼을 만들어서 보내는 방법이다.
-<img src="/img/02-button.png" width="80%" alt="키를 발급받은 사진">  
+<img class="shadow" width="600" src="/img/02-button.png" alt="버튼이 있는 메세지 사진"/>
 버튼이 눌렸을 때의 처리는 뒤에 나온다.  
 
 ```
@@ -178,6 +178,7 @@ check_order은 사용자가 원할 때 일어난다는 것이다.
 핸들러는 항상 두가지 파라미터 bot, args을 받아야한다.  
 그리고 bot을 print 하면 모든 정보가 담겨 나온다.  
 다음은 내가 /order을 입력했을 때 bot.message 안에 담긴 정보이다.  
+<img class="shadow" width="600" src="/img/02-button.png" alt="/order 메세지와 답장의 사진"/>
 
 ```
 {
@@ -230,6 +231,8 @@ def check_order(bot, args):
 callback_data의 값이 bot.callback_query.data 안에,  
 id 값이 bot.callback_query.message.chat.id 안에 담겨있는 것을 확인할 수 있다.  
 이를 통해 다음과 같은 함수를 짤 수 있다.  
+
+<img class="shadow" width="600" src="/img/02-button.png" alt="버튼이 있는 메세지 사진"/>
 
 ```
 def callback_get(bot, update):
