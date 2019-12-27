@@ -1,8 +1,8 @@
 ---
 layout:     post
-title:      "[개발이야기] Telegram ChatBot으로 MYSQL 관리하기"
+title:      "[개발이야기] Telegram으로 MYSQL 실시간 관리하기 2"
 subtitle:   " \"와들 쇼핑 개발 과정\""
-date:       2019-12-23 12:00:00
+date:       2019-12-30 12:00:00
 author:     "이즈"
 catalog: true
 tags:
@@ -14,6 +14,7 @@ tags:
     - 텔레그램
     - 챗봇
     - 연동
+    - 실시간
     - 관리
     - 알림
 ---
