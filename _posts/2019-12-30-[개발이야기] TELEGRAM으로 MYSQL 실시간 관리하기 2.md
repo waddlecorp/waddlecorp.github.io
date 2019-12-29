@@ -62,8 +62,8 @@ def execute(sql, flag=False):
         return None
 ```
 그렇다면 이 이후로는 다음과 같이 함수를 작성할 수 있다.  
-return 값이 있는 경우 sql = execute(f"""SELECT * FROM User;""", True)  
-return 값이 없는 경우 execute(f"""UPDATE User SET Name='와들';""")  
+return 값이 있는 경우 **sql = execute(f"""SELECT * FROM User;""", True)**  
+return 값이 없는 경우 **execute(f"""UPDATE User SET Name='와들';""")**  
 MYSQL의 기본 문법을 설명하지는 않겠다.     
 
 사용자가 결제를 완료해서 우리한테 알림이 와야하는 상태를 'payed'라고 하겠다.    
@@ -137,7 +137,7 @@ def watch():
         if len(order_request) != 0:
             check_order2(123456)
             
-        time.sleep(600)
+        time.sleep(1)
 
 if __name__ == '__main__':
 
@@ -269,7 +269,7 @@ def watch():
         if len(order_request) != 0:
             check_order2(123456)
 
-        time.sleep(600)
+        time.sleep(1)
 
 
 if __name__ == '__main__':
