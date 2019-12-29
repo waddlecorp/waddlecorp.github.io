@@ -274,6 +274,7 @@ def error(bot, update):
 다 합치면 다음과 같다.
 
 **ChatBotModel.py**
+
 ```
 import telegram
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, MessageHandler, Filters
@@ -318,6 +319,7 @@ class WaddleBot(TelegramBot):
 ```
 
 **ChatBot.py**
+
 ```
 import sys
 import ChatBotModel

@@ -159,7 +159,7 @@ if __name__ == '__main__':
 위에서는 MYSQL에서 정보를 얻어오는 것만 얘기했는데,  
 답장 기능을 이용하면 MYSQL을 업데이트 할 수도 있다.  
 나는 이 때 답장 기능을 쏠쏠히 활용했다.  
-하는 방법은 대부분 설명했으니 이 부분은 건너띄도록 하겠다.  
+하는 방법은 대부분 설명했으니 이 부분은 건너 뛰도록 하겠다.  
 
 ##### 최종
 
@@ -167,6 +167,53 @@ if __name__ == '__main__':
 내가 처음 챗봇 개발을 시작할 때 너무 헤매서,  
 조금 도움이 됐으면 하는 생각에 글을 써보았는데  
 많은 사람에게 도움이 됐으면 좋겠다.
+
+**ChatBotModel.py**
+
+```
+import telegram
+from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, MessageHandler, Filters
+
+class TelegramBot:
+    def __init__ (self, name, token):
+        self.core = telegram.Bot(token)
+        self.updater = Updater(token, use_context=True)
+        self.name = name
+
+    def sendMessage(self, id, text, reply_markup=None):
+        self.core.sendMessage(chat_id = id, text=text, reply_markup=reply_markup)
+
+    def stop(self):
+        self.updater.start_polling()
+        self.updater.dispatcher.stop()
+        self.updater.job_queue.stop()
+        self.updater.stop()
+
+class WaddleBot(TelegramBot):
+    def __init__(self):
+        self.token = **본인의 토큰**
+        TelegramBot.__init__(self, '와들', self.token)
+        self.updater.stop()
+
+    def add_handler(self, cmd, func):
+        self.updater.dispatcher.add_handler(CommandHandler(cmd, func))
+
+    def add_query_handler(self, func):
+        self.updater.dispatcher.add_handler(CallbackQueryHandler(func))
+
+    def add_message_handler(self, func):
+        self.updater.dispatcher.add_handler(MessageHandler(Filters.text, func))
+
+    def add_error_handler(self, func):
+        self.updater.dispatcher.add_error_handler(func)
+
+    def start(self):
+        print('start')
+        self.updater.start_polling()
+        self.updater.idle()
+```
+
+**ChatBot.py**
 
 ```
 import sys
