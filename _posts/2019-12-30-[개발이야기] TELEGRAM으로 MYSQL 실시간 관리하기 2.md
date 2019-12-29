@@ -22,7 +22,7 @@ tags:
 
 ### 블루펭귄 개발 과정
 
-주식회사 와들의 첫 iOS 앱인 **[블루펭귄]**(https://www.waddlelab.com/)을 개발하는 과정을 담은 글이다. 
+주식회사 와들의 첫 iOS 앱인 **[블루펭귄](https://www.waddlelab.com/)**을 개발하는 과정을 담은 글이다. 
 
 #### 챗봇 개발 2편
 
@@ -37,7 +37,7 @@ MYSQL과의 실시간 연동 위주의 글을 쓸 예정이다.
 
 ##### 1. MYSQL과의 연동
 
-실시간 연동에 앞서, 먼저 연동하는 방법을 짚고 넘어가겠다.
+실시간 연동에 앞서, 먼저 연동하는 방법을 짚고 넘어가겠다.  
 main함수에 mysql과의 연결을 추가한다.
 
 ```
@@ -61,13 +61,13 @@ def execute(sql, flag=False):
         db.commit()
         return None
 ```
-그렇다면 이 이후로는 다음과 같이 함수를 작성할 수 있다.
-return 값이 있는 경우 sql = execute(f"""SELECT * FROM User;""", True)
-return 값이 없는 경우 execute(f"""UPDATE User SET Name='와들';""")
-MYSQL의 기본 문법을 설명하지는 않겠다.  
+그렇다면 이 이후로는 다음과 같이 함수를 작성할 수 있다.  
+return 값이 있는 경우 sql = execute(f"""SELECT * FROM User;""", True)  
+return 값이 없는 경우 execute(f"""UPDATE User SET Name='와들';""")  
+MYSQL의 기본 문법을 설명하지는 않겠다.     
 
-사용자가 결제를 완료해서 우리한테 알림이 와야하는 상태를 'payed'라고 하겠다.
-그러면 우리는 원래의 check_order 함수를 다음과 같이 수정할 수 있다.
+사용자가 결제를 완료해서 우리한테 알림이 와야하는 상태를 'payed'라고 하겠다.    
+그러면 우리는 원래의 check_order 함수를 다음과 같이 수정할 수 있다.  
 
 원래의 check_order 함수
 
@@ -105,10 +105,10 @@ def check_order(bot, args):
 
 ##### 2. 실시간 연동
 
-이제 MYSQL과의 기본적인 연동 방법에 대해서는 알았으니 실시간 연동에 대해 알아보자.  
-딱히 어렵지는 않다. check_order 함수를 1초에 한번씩 계속 실행시켜주면 된다.
-Thread를 하나 만들어 1초마다 반복시켜보자.
-단 check_order 함수는 원래 handler이므로 다음과 같이 변경했다.
+이제 MYSQL과의 기본적인 연동 방법에 대해서는 알았으니 실시간 연동에 대해 알아보자.   
+딱히 어렵지는 않다. check_order 함수를 1초에 한번씩 계속 실행시켜주면 된다.  
+Thread를 하나 만들어 1초마다 반복시켜보자.   
+단 check_order 함수는 원래 handler이므로 다음과 같이 변경했다.  
 watch 안에 있는 check_order2(123456)은 id가 123456인 사용자에게 알림을 준다는 가정 하에 임의로 적은 것이다.
 
 ```
@@ -164,6 +164,9 @@ if __name__ == '__main__':
 ##### 최종
 
 다 합치면 다음과 같다.
+내가 처음 챗봇 개발을 시작할 때 너무 헤매서,  
+조금 도움이 됐으면 하는 생각에 글을 써보았는데  
+많은 사람에게 도움이 됐으면 좋겠다.
 
 ```
 import sys
