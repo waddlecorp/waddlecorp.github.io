@@ -48,10 +48,8 @@ tags:
 이번 편에서는 텔레그램의 작동법에 대해 설명하고,  
 다음 편에서는 이를 사용해서 MYSQL과 연동하는 법 위주로 설명하겠다.  
 
-먼저, ChatBotModel.py에 구조를 만든다.  
-먼저 코드에 넣을 토큰을 발급 받아야한다.  
-토큰은 [다음 링크](https://www.siteguarding.com/en/how-to-get-telegram-bot-api-token)를 참고하여 만들면 된다.  
-토큰 자리에 꼭 본인 토큰을 넣어주어야한다.
+먼저, ChatBotModel.py 파일을 만들어 구조를 만든다.  
+먼저 코드에 넣을 토큰을 발급 받아야한다. 토큰은 [다음 링크](https://www.siteguarding.com/en/how-to-get-telegram-bot-api-token)를 참고하여 만들면 된다.  
 
 add_handler은 /order 처럼 '/'+문자열 을 인식하는 핸들러다.  
 query_handler은 버튼 클릭 등을 인식하는 핸들러다.   
@@ -126,16 +124,16 @@ if __name__ == '__main__':
     waddle.start()
 ```
 
-이 다음부터는 앞서 핸들러에서 언급된 함수 네개를 설명하겠다.
+이 다음부터는 방금 언급된 함수 네개를 설명하겠다.
 
 ##### 3. check_order
 
 먼저 check_order 함수를 살펴보자.  
-이는 
+이는 '/order'이라는 메세지가 들어왔을 때 
 다음 사진처럼 메세지에 "응 내가 할게", "지금 바빠"  
 이렇게 두개의 버튼을 만들어서 보내는 방법이다.
+버튼이 눌렸을 때의 챗봇 처리는 뒤에 다시 설명 할 예정이다.  
 <img class="shadow" width="600" src="/img/02-button.png" alt="버튼이 있는 메세지 사진"/>
-버튼이 눌렸을 때의 처리는 뒤에 나온다.  
 
 ```
 def build_menu(buttons, n_cols, header_buttons=None, footer_buttons=None):
@@ -146,7 +144,7 @@ def build_menu(buttons, n_cols, header_buttons=None, footer_buttons=None):
         menu.append(footer_buttons)
     return menu
 
-def check_order2(id):
+def check_order(bot, args):
     try:
         order_request = execute(f"""SELECT * FROM Ordered WHERE Status='payed';""", True)
         request_len = len(order_request)
@@ -156,31 +154,16 @@ def check_order2(id):
         set_menu.append(InlineKeyboardButton("지금 바빠", callback_data="no"))
         set_menu_markup = InlineKeyboardMarkup(build_menu(set_menu, len(set_menu) - 1)) 
 
-        waddle.sendMessage(id, "결제 요청 "+str(request_len)+"건이 들어왔습니다.\n맡아 결제 하시겠습니까?", reply_markup=set_menu_markup)
+        waddle.sendMessage(bot.message.chat.id, "결제 요청 "+str(request_len)+"건이 들어왔습니다.\n맡아 결제 하시겠습니까?", reply_markup=set_menu_markup)
     
     except:
         print("error from check_order")
 ```
 
-##### 4. check_order
-
-- 함수의 목적  
-    사용자가 원할 때 주문목록을 확인한다.  
-
-- 함수의 기능  
-    1. bot.message 분석
-    2. landler 처리
-
-위에서 왜 함수 이름이 check_order2 인지 궁금했을 것이다. 아님 말고.
-그 이유는 바로 handler 처리에서 이미 check_order을 사용해서이다.    
-하여튼 이 함수는 위의 watch 함수와 굉장히 비슷하게 돌아간다.  
-유일한 차이점은 watch는 사용자의 동작 없이도 주기적으로 일어나고,  
-check_order은 사용자가 원할 때 일어난다는 것이다.  
-
+다른 함수는 어렵지 않겠지만, 갑자기 나타난 bot.message.chat.id는 의아할 수도 있다.
 핸들러는 항상 두가지 파라미터 bot, args을 받아야한다.  
 그리고 bot을 print 하면 모든 정보가 담겨 나온다.  
 다음은 내가 /order을 입력했을 때 bot.message 안에 담긴 정보이다.  
-<img class="shadow" width="600" src="/img/02-button.png" alt="/order 메세지와 답장의 사진"/>
 
 ```
 {
@@ -213,20 +196,9 @@ check_order은 사용자가 원할 때 일어난다는 것이다.
 ```
 이 때 내 id는 chat.id에 담겨있다.  
 따라서 내 아이디는 bot.message.chat.id를 통해 알 수 있다.  
-그렇다면 check_order 함수는 다음과 같이 나타낼 수 있다.  
-
-```
-def check_order(bot, args):
-    check_order2(bot.message.chat.id)
-```
+그래서 메세지를 보내는 id를 bot.message.chat.id에 넣은 것이다.
 
 ##### 5. callback_get
-
-- 함수의 목적  
-    버튼의 클릭을 감지한다.
-
-- 함수의 기능  
-    1. bot.callback_query 분석
 
 다음은 버튼이 눌렸을 때의 처리이다.  
 위에서 말했던 것 처럼 bot.message을 출력해보면   
@@ -234,7 +206,7 @@ callback_data의 값이 bot.callback_query.data 안에,
 id 값이 bot.callback_query.message.chat.id 안에 담겨있는 것을 확인할 수 있다.  
 이를 통해 다음과 같은 함수를 짤 수 있다.  
 
-<img class="shadow" width="600" src="/img/02-button.png" alt="버튼이 있는 메세지 사진"/>
+<img class="shadow" width="600" src="/img/02-button-callback.png" alt="버튼이 있는 메세지에 답장을 한 사진"/>
 
 ```
 def callback_get(bot, update):
@@ -256,13 +228,6 @@ def manager_order(id):
 ```
 
 #### 6. text
-
-- 함수의 목적  
-    모든 메세지를 감지한다.
-
-- 함수의 기능  
-    1. 일반 메세지와 답장 메세지 구분
-    2. 메세지에 따른 함수 처리
 
 나는 크게 메세지를 두가지로 나눴다.   
 첫번째는 일반 메세지가 온 경우,  
@@ -296,12 +261,6 @@ def complete_order(id, reply_text, text):
 
 ##### 7. error
 
-- 함수의 목적  
-    에러를 감지한다.
-
-- 함수의 기능  
-    1. 에러 감지
-
 마지막으로 에러처리이다.  
 챗봇에서 에러가 나면 자동으로 다음 함수가 실행된다.  
 
@@ -315,6 +274,51 @@ def error(bot, update):
 
 다 합치면 다음과 같다.
 
+**ChatBotModel.py**
+```
+import telegram
+from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, MessageHandler, Filters
+
+class TelegramBot:
+    def __init__ (self, name, token):
+        self.core = telegram.Bot(token)
+        self.updater = Updater(token, use_context=True)
+        self.name = name
+
+    def sendMessage(self, id, text, reply_markup=None):
+        self.core.sendMessage(chat_id = id, text=text, reply_markup=reply_markup)
+
+    def stop(self):
+        self.updater.start_polling()
+        self.updater.dispatcher.stop()
+        self.updater.job_queue.stop()
+        self.updater.stop()
+
+class WaddleBot(TelegramBot):
+    def __init__(self):
+        self.token = **본인의 토큰**
+        TelegramBot.__init__(self, '와들', self.token)
+        self.updater.stop()
+
+    def add_handler(self, cmd, func):
+        self.updater.dispatcher.add_handler(CommandHandler(cmd, func))
+
+    def add_query_handler(self, func):
+        self.updater.dispatcher.add_handler(CallbackQueryHandler(func))
+
+    def add_message_handler(self, func):
+        self.updater.dispatcher.add_handler(MessageHandler(Filters.text, func))
+
+    def add_error_handler(self, func):
+        self.updater.dispatcher.add_error_handler(func)
+
+    def start(self):
+        print('start')
+        self.updater.start_polling()
+        self.updater.idle()
+```
+
+**ChatBot.py**
 ```
 import sys
 import ChatBotModel
@@ -336,20 +340,17 @@ def build_menu(buttons, n_cols, header_buttons=None, footer_buttons=None):
     return menu
 
 
-def check_order2(id):
+def check_order(bot, args):
     try:
         set_menu = []
         set_menu.append(InlineKeyboardButton("응 내가 할게", callback_data="yes")) 
         set_menu.append(InlineKeyboardButton("지금 바빠", callback_data="no"))
         set_menu_markup = InlineKeyboardMarkup(build_menu(set_menu, len(set_menu) - 1)) 
 
-        waddle.sendMessage(id, "결제 요청이 들어왔습니다.\n맡아 결제 하시겠습니까?", reply_markup=set_menu_markup)
+        waddle.sendMessage(bot.message.chat.id, "결제 요청이 들어왔습니다.\n맡아 결제 하시겠습니까?", reply_markup=set_menu_markup)
     
     except:
         print("error from check_order")
-
-def check_order(bot, args):
-    check_order2(bot.message.chat.id)
     
 def manager_order(id):
     try:
