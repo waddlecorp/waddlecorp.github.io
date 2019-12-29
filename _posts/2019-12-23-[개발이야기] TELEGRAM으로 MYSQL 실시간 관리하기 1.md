@@ -9,6 +9,7 @@ tags:
     - Telegram
     - Chatbot
     - MYSQL
+    - MariaDB
     - DataBase
     - DB
     - 텔레그램
@@ -146,9 +147,6 @@ def build_menu(buttons, n_cols, header_buttons=None, footer_buttons=None):
 
 def check_order(bot, args):
     try:
-        order_request = execute(f"""SELECT * FROM Ordered WHERE Status='payed';""", True)
-        request_len = len(order_request)
-
         set_menu = []
         set_menu.append(InlineKeyboardButton("응 내가 할게", callback_data="yes")) 
         set_menu.append(InlineKeyboardButton("지금 바빠", callback_data="no"))
@@ -246,7 +244,8 @@ def text(bot, update):
         waddle.sendMessage(bot.message.chat.id, "환영합니다")
 ```
 complete_order은 주문정보를 보고 주문을 한 다음 답장으로 완료를 보내면 일어난다.  
-나는 이때 추가적인 mysql처리를 해주었지만, 여기서는 따로 나타내지 않겠다.  
+나는 이때 추가적인 mysql처리를 해주었지만,  
+지금은 따로 나타내지 않고 2탄에서 더 자세히 설명하겠다.  
 함수는 다음과 같이 나타낼 수 있다.  
 
 ```
