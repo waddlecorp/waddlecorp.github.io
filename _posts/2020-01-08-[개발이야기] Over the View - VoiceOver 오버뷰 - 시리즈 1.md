@@ -65,21 +65,21 @@ VoiceOver가 제공하는 기능은 제스처로 정해져 있으며 많이 알 
 
 가장 기본적이면서도 설정을 따로 해주지 않으면 정확한 정보를 제공해줄 수 없을 뿐 아니라 '버튼인지 텍스트필드인지', '누르면 어떻게 되는지' 등 사용자가 예측하게 만들어 불편함을 줄 수 있는 부분이다.
 
-- var isAccessibilityElement: Bool
+- ```var isAccessibilityElement: Bool```
 
     UIKit의 객체는 기본적으로 true 값을 가지며, 보통 불필요한 내용을 읽어주지 않게 하기 위해 false로 이 값을 변경한다.
 
         @IBOutlet weak var detail: UILabel!
         detail.isAccessibilityElement = false
 
-- var AccessibilityLabel: String?
+- ```var AccessibilityLabel: String?```
 
     해당 항목에 초점이 맞춰졌을 때 어떤 내용을 읽어줄 지 결정한다. 짧고 간단하게 정하는 것이 좋으며 UIKit의 객체는 제목(title)이 기본값으로 설정된다.
 
         @IBOutlet weak var saveBtn: UIButton!
         saveBtn.accessibilityLabel = "Save"
 
-- var AccessibilityTraits: UIAccessibilityTraits
+- ```var AccessibilityTraits: UIAccessibilityTraits```
 
     버튼, 머리말, 텍스트필드 등 사용자가 인터랙션하는 데 도움을 줄 수 있는 특성을 나타낸다.
 
@@ -92,7 +92,7 @@ VoiceOver가 제공하는 기능은 제스처로 정해져 있으며 많이 알 
         	cell.accessibilityTraits = .button
         }
 
-- var AccessibilityHint: String?
+- ```var AccessibilityHint: String?```
 
     VoiceOver가 AccessibilityLabel 이후에 읽어주는 텍스트이다. Label을 읽은 후 약간의 간격을 두고 읽어주기 때문에 듣지 못할 수 있으며, 활성화하지 않은 사용자는 아예 들을 수 없다. 명료하고 짧을 수록 편리하다. '상세 설명을 보려면 이중 탭 하십시오.', 등 도움말의 의미를 가진 텍스트를 지정해주면 좋다.
 
